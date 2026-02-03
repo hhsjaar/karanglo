@@ -1,0 +1,212 @@
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+}
+
+
+model VillageProfile {
+  id              String   @id @default("default")
+  name            String   @default("Desa Karanglo")
+  description     String
+  vision          String
+  mission         String
+  history         String
+  areaSize        Float
+  populationCount Int
+  idmStatus       IdmStatus @default(MAJU)
+  address         String
+  phone           String
+  email           String?
+  socialMedia     Json?
+  mapEmbedUrl     String?  @default("")
+  structure       Json?    @map("structure_json")
+  updatedAt       DateTime @updatedAt
+}
+
+model VillageOfficial {
+  id          String   @id @default(cuid())
+  name        String
+  position    String
+  description String?
+  image       String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model VillageInstitution {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  logo        String?
+  members     Json?    // Array of {name, position}
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model VillageFacility {
+  id          String   @id @default(cuid())
+  name        String
+  type        String   // EDUCATION, HEALTH, PUBLIC, RELIGIOUS
+  image       String?
+  location    String?
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model DemographicStat {
+  id        String   @id @default(cuid())
+  category  String   // GENDER, AGE, EDUCATION, RELIGION, PROFESSION, MARITAL_STATUS
+  label     String
+  count     Int
+  year      Int
+  updatedAt DateTime @updatedAt
+
+  @@unique([category, label, year])
+}
+
+model Budget {
+  id          String   @id @default(cuid())
+  year        Int
+  type        BudgetType
+  category    String   // e.g., "Pendapatan Asli Desa", "Belanja Pegawai"
+  amount      Float
+  description String?
+  percentage  Float?   // For progress or pie chart relative
+  updatedAt   DateTime @updatedAt
+}
+
+model Potency {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  category    PotencyCategory
+  description String
+  images      String[]
+  thumbnail   String?
+  content     String
+  economicVal String?  // e.g. "Rp 50jt/th"
+  location    String?
+  contact     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model IdmRecord {
+  id         String   @id @default(cuid())
+  year       Int      @unique
+  scoreIks   Float
+  scoreIke   Float
+  scoreIkl   Float
+  scoreTotal Float
+  status     IdmStatus
+  target     Float?
+  recommendations String? 
+  details    Json?    // Sub-indicators
+  createdAt  DateTime @default(now())
+}
+
+model Activity {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  category    ActivityCategory
+  excerpt     String
+  content     String
+  thumbnail   String?
+  images      String[]
+  publishedAt DateTime @default(now())
+  author      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Complaint {
+  id          String   @id @default(cuid())
+  ticketId    String   @unique
+  name        String
+  phone       String
+  email       String?
+  agency      String?  // Asal Instansi
+  title       String
+  description String
+  category    ComplaintCategory
+  status      ComplaintStatus   @default(PENDING)
+  attachment  String?
+  response    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model PpdidFile {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  url         String
+  category    String
+  downloadCount Int @default(0)
+  uploadDate  DateTime @default(now())
+}
+
+model Banner {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  image       String
+  link        String?
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum IdmStatus {
+  MANDIRI
+  MAJU
+  BERKEMBANG
+  TERTINGGAL
+  SANGAT_TERTINGGAL
+}
+
+enum BudgetType {
+  INCOME
+  EXPENSE
+  FINANCING
+}
+
+enum PotencyCategory {
+  POTENCY
+  UMKM
+  KKN_PROGRAM
+}
+
+enum ActivityCategory {
+  NEWS
+  EVENT
+  ANNOUNCEMENT
+}
+
+enum ComplaintCategory {
+  COMPLAINT
+  REQUEST
+}
+
+enum ComplaintStatus {
+  PENDING
+  PROCESSING
+  RESOLVED
+  REJECTED
+}
