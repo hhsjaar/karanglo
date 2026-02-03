@@ -28,7 +28,7 @@ export default async function ProfilPage() {
                     <Image src="/pattern.svg" alt="Pattern" fill className="object-cover" />
                 </div>
                 <div className="container mx-auto px-4 text-center relative z-10">
-                    <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Profil {profile.name}</h1>
+                    <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">Profil {profile.name}</h1>
                     <p className="text-primary-foreground/80 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
                         Mengenal lebih dekat identitas, sejarah, budaya, dan visi pembangunan {profile.name}.
                     </p>
@@ -38,11 +38,11 @@ export default async function ProfilPage() {
             <div className="container mx-auto px-4 md:px-6">
                 <Tabs defaultValue="identitas" className="space-y-12">
                     <div className="sticky top-20 z-40 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-md py-4 -mx-4 px-4 flex justify-center border-b">
-                        <TabsList className="w-full max-w-[800px] grid grid-cols-4 h-auto p-1 bg-slate-200 dark:bg-slate-800 rounded-full">
-                            <TabsTrigger value="identitas" className="rounded-full py-2.5">Identitas</TabsTrigger>
-                            <TabsTrigger value="visimisi" className="rounded-full py-2.5">Visi Misi</TabsTrigger>
-                            <TabsTrigger value="struktur" className="rounded-full py-2.5">Pemerintahan</TabsTrigger>
-                            <TabsTrigger value="data" className="rounded-full py-2.5">Data & Lembaga</TabsTrigger>
+                        <TabsList className="w-full max-w-[800px] grid grid-cols-2 md:grid-cols-4 h-auto p-1 bg-slate-200 dark:bg-slate-800 rounded-xl md:rounded-full gap-1">
+                            <TabsTrigger value="identitas" className="rounded-lg md:rounded-full py-2.5 text-xs md:text-sm">Identitas</TabsTrigger>
+                            <TabsTrigger value="visimisi" className="rounded-lg md:rounded-full py-2.5 text-xs md:text-sm">Visi Misi</TabsTrigger>
+                            <TabsTrigger value="struktur" className="rounded-lg md:rounded-full py-2.5 text-xs md:text-sm">Pemerintahan</TabsTrigger>
+                            <TabsTrigger value="data" className="rounded-lg md:rounded-full py-2.5 text-xs md:text-sm">Data & Lembaga</TabsTrigger>
                         </TabsList>
                     </div>
 

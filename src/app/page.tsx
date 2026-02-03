@@ -67,7 +67,7 @@ export default async function Home() {
                 <div className="inline-block px-4 py-1.5 rounded-full bg-emerald-500/20 text-emerald-400 font-medium text-sm border border-emerald-500/30">
                   Digital Village Ecosystem
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold leading-tight">
+                <h2 className="text-2xl md:text-4xl font-bold leading-tight">
                   Pusat Data & Informasi Desa (PPDID)
                 </h2>
                 <p className="text-slate-300 text-lg leading-relaxed max-w-xl">

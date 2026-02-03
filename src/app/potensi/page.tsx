@@ -18,8 +18,8 @@ export default async function PotensiPage() {
 
     // Separate main highlight (Wisata Air / priority) if any, or just pick first
     // ideally we would have a 'isFeatured' flag but for now we pick key 'Wisata'
-    const featuredPotency = potencies.find(p => p.category === "POTENCY") || potencies[0];
-    const otherPotencies = potencies.filter(p => p.id !== featuredPotency?.id);
+    const featuredPotency = potencies.find((p: any) => p.category === "POTENCY") || potencies[0];
+    const otherPotencies = potencies.filter((p: any) => p.id !== featuredPotency?.id);
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pt-20 pb-12">
@@ -27,7 +27,7 @@ export default async function PotensiPage() {
                 <div className="absolute inset-0 bg-[url('/placeholder.svg')] bg-cover bg-center opacity-20 mix-blend-overlay" />
                 <div className="container mx-auto px-4 text-center relative z-10 text-white">
                     <Badge className="mb-4 bg-emerald-500 hover:bg-emerald-600 border-none text-white text-md px-4 py-1">Kekayaan Desa</Badge>
-                    <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Potensi Desa Karanglo</h1>
+                    <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">Potensi Desa Karanglo</h1>
                     <p className="text-emerald-100 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
                         Dari wisata air yang menyegarkan hingga produk kreatif UMKM warga.
                         Temukan peluang dan keunikan yang membangun ekonomi desa kami.
@@ -101,7 +101,7 @@ export default async function PotensiPage() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {otherPotencies.map((potency) => (
+                        {otherPotencies.map((potency: any) => (
                             <Link href={`/potensi/${potency.slug}`} key={potency.id}>
                                 <Card className="group overflow-hidden border-none shadow-md hover:shadow-xl transition-all duration-300 h-full flex flex-col">
                                     <div className="h-48 bg-slate-200 relative overflow-hidden shrink-0">

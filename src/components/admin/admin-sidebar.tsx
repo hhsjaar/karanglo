@@ -19,7 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { logout } from "@/actions/auth";
 
-const menuItems = [
+export const menuItems = [
     {
         title: "Dashboard",
         href: "/admin/dashboard",
@@ -67,16 +67,23 @@ const menuItems = [
     },
 ];
 
-export function AdminSidebar() {
+interface SidebarContentProps {
+    className?: string;
+    onLinkClick?: () => void;
+}
+
+export function SidebarContent({ className, onLinkClick }: SidebarContentProps) {
     const pathname = usePathname();
 
     return (
-        <div className="flex bg-slate-900 text-white h-screen w-64 flex-col fixed left-0 top-0 z-50">
+        <div className={cn("flex flex-col h-full bg-slate-900 text-white", className)}>
             <div className="p-6 border-b border-slate-800">
-                <h1 className="text-xl font-bold tracking-wider">
-                    KARANGLO <span className="text-emerald-500">ADMIN</span>
-                </h1>
-                <p className="text-xs text-slate-400 mt-1">Content Management System</p>
+                <Link href="/admin/dashboard" onClick={onLinkClick}>
+                    <h1 className="text-xl font-bold tracking-wider">
+                        KARANGLO <span className="text-emerald-500">ADMIN</span>
+                    </h1>
+                    <p className="text-xs text-slate-400 mt-1">Content Management System</p>
+                </Link>
             </div>
 
             <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
@@ -86,6 +93,7 @@ export function AdminSidebar() {
                         <Link
                             key={item.href}
                             href={item.href}
+                            onClick={onLinkClick}
                             className={cn(
                                 "flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-colors",
                                 isActive
@@ -108,6 +116,14 @@ export function AdminSidebar() {
                     </Button>
                 </form>
             </div>
+        </div>
+    );
+}
+
+export function AdminSidebar() {
+    return (
+        <div className="hidden md:flex h-screen w-64 fixed left-0 top-0 z-50">
+            <SidebarContent />
         </div>
     );
 }

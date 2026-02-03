@@ -127,7 +127,7 @@ export function HeroSlider({ banners: propBanners = DEFAULT_BANNERS }: HeroSlide
                     >
                         Website Resmi Pemerintah Desa
                     </motion.span>
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight drop-shadow-2xl text-white">
+                    <h1 className="text-3xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight drop-shadow-2xl text-white">
                         {currentBanner.title}
                     </h1>
                 </motion.div>
