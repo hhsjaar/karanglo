@@ -1,4 +1,4 @@
-import { Users, Baby, GraduationCap, Briefcase, Heart } from "lucide-react"
+import { Users, Heart } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { PopulationCharts } from "@/components/data-penduduk/population-charts"
 import { PublicResidentList } from "@/components/data-penduduk/public-resident-list"
@@ -13,6 +13,11 @@ export const metadata = {
 export default async function DataPendudukPage() {
     const residents = await getResidents()
 
+    const totalPenduduk = residents.length
+    const maleCount = residents.filter((r: any) => r.gender === "LAKI-LAKI").length
+    const femaleCount = residents.filter((r: any) => r.gender === "PEREMPUAN").length
+    const kkCount = new Set(residents.map((r: any) => r.address + r.rt + r.rw)).size
+
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pt-20 pb-12">
             <div className="bg-emerald-600 py-16 mb-12 relative overflow-hidden">
@@ -26,7 +31,6 @@ export default async function DataPendudukPage() {
             </div>
 
             <div className="container mx-auto px-4 md:px-6 space-y-12">
-                {/* Summary Cards */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
                     <Card className="bg-white dark:bg-slate-950 border-0 shadow-md hover:shadow-lg transition-shadow">
                         <CardHeader className="pb-2">
@@ -34,7 +38,7 @@ export default async function DataPendudukPage() {
                         </CardHeader>
                         <CardContent>
                             <div className="flex items-center justify-between">
-                                <div className="text-3xl font-bold">3,570</div>
+                                <div className="text-3xl font-bold">{totalPenduduk.toLocaleString('id-ID')}</div>
                                 <div className="h-10 w-10 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center">
                                     <Users className="h-5 w-5" />
                                 </div>
@@ -47,7 +51,7 @@ export default async function DataPendudukPage() {
                         </CardHeader>
                         <CardContent>
                             <div className="flex items-center justify-between">
-                                <div className="text-3xl font-bold">1,050</div>
+                                <div className="text-3xl font-bold">{kkCount.toLocaleString('id-ID')}</div>
                                 <div className="h-10 w-10 bg-emerald-100 text-emerald-600 rounded-lg flex items-center justify-center">
                                     <Heart className="h-5 w-5" />
                                 </div>
@@ -60,7 +64,7 @@ export default async function DataPendudukPage() {
                         </CardHeader>
                         <CardContent>
                             <div className="flex items-center justify-between">
-                                <div className="text-3xl font-bold">1,750</div>
+                                <div className="text-3xl font-bold">{maleCount.toLocaleString('id-ID')}</div>
                                 <div className="h-10 w-10 bg-orange-100 text-orange-600 rounded-lg flex items-center justify-center text-xl font-bold">
                                     ♂
                                 </div>
@@ -73,7 +77,7 @@ export default async function DataPendudukPage() {
                         </CardHeader>
                         <CardContent>
                             <div className="flex items-center justify-between">
-                                <div className="text-3xl font-bold">1,820</div>
+                                <div className="text-3xl font-bold">{femaleCount.toLocaleString('id-ID')}</div>
                                 <div className="h-10 w-10 bg-pink-100 text-pink-600 rounded-lg flex items-center justify-center text-xl font-bold">
                                     ♀
                                 </div>
@@ -91,7 +95,7 @@ export default async function DataPendudukPage() {
                     </div>
 
                     <TabsContent value="stats" className="mt-0">
-                        <PopulationCharts />
+                        <PopulationCharts residents={residents} />
                     </TabsContent>
 
                     <TabsContent value="list" className="mt-0">

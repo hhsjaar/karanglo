@@ -4,115 +4,171 @@ import { useMemo } from "react"
 import {
     PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend,
     BarChart, Bar, XAxis, YAxis, CartesianGrid,
-    AreaChart, Area
 } from "recharts"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 
-// MOCK DATA (Simulating DB/API)
-const GENDER_DATA = [
-    { name: 'Laki-laki', value: 1750, color: '#3b82f6' }, // blue-500
-    { name: 'Perempuan', value: 1820, color: '#ec4899' }, // pink-500
-]
+interface Resident {
+    id: string
+    gender: string
+    birthDate: Date
+    religion: string
+    education: string
+    profession: string
+    maritalStatus: string
+}
 
-const AGE_DATA = [
-    { name: '0-5', Laki: 150, Perempuan: 140 },
-    { name: '6-12', Laki: 200, Perempuan: 190 },
-    { name: '13-17', Laki: 180, Perempuan: 170 },
-    { name: '18-25', Laki: 300, Perempuan: 320 },
-    { name: '26-40', Laki: 450, Perempuan: 460 },
-    { name: '41-60', Laki: 350, Perempuan: 380 },
-    { name: '60+', Laki: 120, Perempuan: 160 },
-]
+interface PopulationChartsProps {
+    residents: Resident[]
+}
 
-const EDUCATION_DATA = [
-    { name: 'Tidak/Belum Sekolah', value: 450 },
-    { name: 'SD/Sederajat', value: 1200 },
-    { name: 'SMP/Sederajat', value: 900 },
-    { name: 'SMA/Sederajat', value: 750 },
-    { name: 'Diploma/Sarjana', value: 270 },
-]
+export function PopulationCharts({ residents }: PopulationChartsProps) {
+    const genderData = useMemo(() => {
+        const male = residents.filter(r => r.gender === "LAKI-LAKI").length
+        const female = residents.filter(r => r.gender === "PEREMPUAN").length
+        return [
+            { name: 'Laki-laki', value: male, color: '#3b82f6' },
+            { name: 'Perempuan', value: female, color: '#ec4899' },
+        ]
+    }, [residents])
 
-const RELIGION_DATA = [
-    { name: 'Islam', value: 3400, color: '#10b981' },
-    { name: 'Kristen', value: 120, color: '#6366f1' },
-    { name: 'Katolik', value: 50, color: '#8b5cf6' },
-    { name: 'Hindu', value: 10, color: '#f59e0b' },
-]
+    const ageData = useMemo(() => {
+        const now = new Date()
+        const bins = [
+            { name: '0-5', Laki: 0, Perempuan: 0 },
+            { name: '6-12', Laki: 0, Perempuan: 0 },
+            { name: '13-17', Laki: 0, Perempuan: 0 },
+            { name: '18-25', Laki: 0, Perempuan: 0 },
+            { name: '26-40', Laki: 0, Perempuan: 0 },
+            { name: '41-60', Laki: 0, Perempuan: 0 },
+            { name: '60+', Laki: 0, Perempuan: 0 },
+        ]
 
-const PROFESSION_DATA = [
-    { name: 'Petani', value: 1200 },
-    { name: 'Buruh Tani', value: 800 },
-    { name: 'Wiraswasta', value: 500 },
-    { name: 'PNS/TNI/Polri', value: 150 },
-    { name: 'Pelajar/Mhs', value: 600 },
-    { name: 'Lainnya', value: 320 },
-]
+        residents.forEach(r => {
+            const birth = new Date(r.birthDate)
+            const age = now.getFullYear() - birth.getFullYear()
+            const gender = r.gender === "LAKI-LAKI" ? "Laki" : "Perempuan"
 
-const MARITAL_DATA = [
-    { name: 'Belum Kawin', value: 1400, color: '#94a3b8' },
-    { name: 'Kawin', value: 2000, color: '#f43f5e' },
-    { name: 'Cerai Hidup', value: 100, color: '#f97316' },
-    { name: 'Cerai Mati', value: 70, color: '#78716c' },
-]
+            if (age <= 5) bins[0][gender]++
+            else if (age <= 12) bins[1][gender]++
+            else if (age <= 17) bins[2][gender]++
+            else if (age <= 25) bins[3][gender]++
+            else if (age <= 40) bins[4][gender]++
+            else if (age <= 60) bins[5][gender]++
+            else bins[6][gender]++
+        })
+        return bins
+    }, [residents])
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
+    const educationData = useMemo(() => {
+        const counts: Record<string, number> = {}
+        residents.forEach(r => {
+            counts[r.education] = (counts[r.education] || 0) + 1
+        })
+        return Object.entries(counts).map(([name, value]) => ({ name, value }))
+            .sort((a, b) => b.value - a.value)
+    }, [residents])
 
-export function PopulationCharts() {
+    const religionData = useMemo(() => {
+        const counts: Record<string, number> = {}
+        const colors: Record<string, string> = {
+            'Islam': '#10b981',
+            'Kristen': '#3b82f6',
+            'Katolik': '#6366f1',
+            'Hindu': '#f59e0b',
+            'Budha': '#eb5757',
+            'Konghucu': '#828282'
+        }
+        residents.forEach(r => {
+            counts[r.religion] = (counts[r.religion] || 0) + 1
+        })
+        return Object.entries(counts).map(([name, value]) => ({
+            name,
+            value,
+            color: colors[name] || '#94a3b8'
+        }))
+    }, [residents])
+
+    const professionData = useMemo(() => {
+        const counts: Record<string, number> = {}
+        residents.forEach(r => {
+            counts[r.profession] = (counts[r.profession] || 0) + 1
+        })
+        return Object.entries(counts).map(([name, value]) => ({ name, value }))
+            .sort((a, b) => b.value - a.value)
+            .slice(0, 8) // Limit to top 8
+    }, [residents])
+
+    const maritalData = useMemo(() => {
+        const counts: Record<string, number> = {}
+        const colors: Record<string, string> = {
+            'Belum Kawin': '#94a3b8',
+            'Kawin': '#f43f5e',
+            'Cerai Hidup': '#f97316',
+            'Cerai Mati': '#78716c'
+        }
+        residents.forEach(r => {
+            counts[r.maritalStatus] = (counts[r.maritalStatus] || 0) + 1
+        })
+        return Object.entries(counts).map(([name, value]) => ({
+            name,
+            value,
+            color: colors[name] || '#cbd5e1'
+        }))
+    }, [residents])
+
     return (
         <div className="space-y-8">
-            {/* Top Row: Gender & Religion (Pie Charts) */}
             <div className="grid md:grid-cols-2 gap-8">
-                <Card>
+                <Card className="shadow-sm border-slate-200">
                     <CardHeader>
-                        <CardTitle>Berdasarkan Jenis Kelamin</CardTitle>
-                        <CardDescription>Perbandingan jumlah penduduk laki-laki dan perempuan</CardDescription>
+                        <CardTitle className="text-lg">Jenis Kelamin</CardTitle>
+                        <CardDescription>Perbandingan jumlah Laki-laki dan Perempuan</CardDescription>
                     </CardHeader>
-                    <CardContent className="h-[300px]">
+                    <CardContent className="h-[250px]">
                         <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
                                 <Pie
-                                    data={GENDER_DATA}
+                                    data={genderData}
                                     cx="50%"
                                     cy="50%"
-                                    innerRadius={60}
-                                    outerRadius={100}
+                                    innerRadius={50}
+                                    outerRadius={80}
                                     paddingAngle={5}
                                     dataKey="value"
                                 >
-                                    {GENDER_DATA.map((entry, index) => (
+                                    {genderData.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={entry.color} />
                                     ))}
                                 </Pie>
-                                <Tooltip formatter={(value) => `${value} Jiwa`} />
+                                <Tooltip formatter={(value) => `${value} Orang`} />
                                 <Legend verticalAlign="bottom" height={36} />
                             </PieChart>
                         </ResponsiveContainer>
                     </CardContent>
                 </Card>
 
-                <Card>
+                <Card className="shadow-sm border-slate-200">
                     <CardHeader>
-                        <CardTitle>Berdasarkan Agama</CardTitle>
-                        <CardDescription>Distribusi penduduk berdasarkan agama kepercayaan</CardDescription>
+                        <CardTitle className="text-lg">Agama</CardTitle>
+                        <CardDescription>Distribusi berdasarkan agama</CardDescription>
                     </CardHeader>
-                    <CardContent className="h-[300px]">
+                    <CardContent className="h-[250px]">
                         <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
                                 <Pie
-                                    data={RELIGION_DATA}
+                                    data={religionData}
                                     cx="50%"
                                     cy="50%"
-                                    innerRadius={60}
-                                    outerRadius={100}
+                                    innerRadius={50}
+                                    outerRadius={80}
                                     paddingAngle={2}
                                     dataKey="value"
                                 >
-                                    {RELIGION_DATA.map((entry, index) => (
+                                    {religionData.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={entry.color} />
                                     ))}
                                 </Pie>
-                                <Tooltip formatter={(value) => `${value} Jiwa`} />
+                                <Tooltip formatter={(value) => `${value} Orang`} />
                                 <Legend verticalAlign="bottom" height={36} />
                             </PieChart>
                         </ResponsiveContainer>
@@ -120,22 +176,18 @@ export function PopulationCharts() {
                 </Card>
             </div>
 
-            {/* Middle: Age Structure (Pyramid-ish Bar Chart) */}
-            <Card>
+            <Card className="shadow-sm border-slate-200">
                 <CardHeader>
-                    <CardTitle>Struktur Usia Penduduk</CardTitle>
-                    <CardDescription>Sebaran penduduk berdasarkan kelompok usia produktif dan non-produktif</CardDescription>
+                    <CardTitle className="text-lg">Struktur Usia</CardTitle>
+                    <CardDescription>Berdasarkan kelompok umur</CardDescription>
                 </CardHeader>
-                <CardContent className="h-[400px]">
+                <CardContent className="h-[350px]">
                     <ResponsiveContainer width="100%" height="100%">
-                        <BarChart
-                            data={AGE_DATA}
-                            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                        >
-                            <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                            <XAxis dataKey="name" />
-                            <YAxis />
-                            <Tooltip cursor={{ fill: 'transparent' }} />
+                        <BarChart data={ageData} margin={{ top: 20, right: 30, left: 10, bottom: 5 }}>
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                            <XAxis dataKey="name" axisLine={false} tickLine={false} />
+                            <YAxis axisLine={false} tickLine={false} />
+                            <Tooltip cursor={{ fill: '#f1f5f9' }} />
                             <Legend />
                             <Bar dataKey="Laki" stackId="a" fill="#3b82f6" name="Laki-laki" radius={[0, 0, 4, 4]} />
                             <Bar dataKey="Perempuan" stackId="a" fill="#ec4899" name="Perempuan" radius={[4, 4, 0, 0]} />
@@ -144,68 +196,59 @@ export function PopulationCharts() {
                 </CardContent>
             </Card>
 
-            {/* Bottom Row: Education & Profession (Bar Charts) */}
             <div className="grid md:grid-cols-2 gap-8">
-                <Card>
+                <Card className="shadow-sm border-slate-200">
                     <CardHeader>
-                        <CardTitle>Tingkat Pendidikan</CardTitle>
+                        <CardTitle className="text-lg">Pendidikan</CardTitle>
                     </CardHeader>
-                    <CardContent className="h-[300px] w-full">
+                    <CardContent className="h-[300px]">
                         <ResponsiveContainer width="100%" height="100%">
-                            <BarChart
-                                layout="vertical"
-                                data={EDUCATION_DATA}
-                                margin={{ top: 5, right: 30, left: 40, bottom: 5 }}
-                            >
-                                <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
-                                <XAxis type="number" />
-                                <YAxis type="category" dataKey="name" width={100} style={{ fontSize: '12px' }} />
+                            <BarChart layout="vertical" data={educationData} margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
+                                <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#e2e8f0" />
+                                <XAxis type="number" hide />
+                                <YAxis type="category" dataKey="name" width={120} style={{ fontSize: '11px' }} axisLine={false} tickLine={false} />
                                 <Tooltip />
-                                <Bar dataKey="value" fill="#8884d8" name="Jumlah" radius={[0, 4, 4, 0]} barSize={20} />
+                                <Bar dataKey="value" fill="#8884d8" name="Jiwa" radius={[0, 4, 4, 0]} barSize={20} />
                             </BarChart>
                         </ResponsiveContainer>
                     </CardContent>
                 </Card>
 
-                <Card>
+                <Card className="shadow-sm border-slate-200">
                     <CardHeader>
-                        <CardTitle>Mata Pencaharian</CardTitle>
+                        <CardTitle className="text-lg">Pekerjaan</CardTitle>
                     </CardHeader>
                     <CardContent className="h-[300px]">
                         <ResponsiveContainer width="100%" height="100%">
-                            <BarChart
-                                data={PROFESSION_DATA}
-                                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                            >
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                                <XAxis dataKey="name" style={{ fontSize: '11px' }} interval={0} />
-                                <YAxis />
+                            <BarChart data={professionData} margin={{ top: 5, right: 30, left: 20, bottom: 20 }}>
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                                <XAxis dataKey="name" style={{ fontSize: '10px' }} interval={0} angle={-30} textAnchor="end" axisLine={false} tickLine={false} />
+                                <YAxis axisLine={false} tickLine={false} />
                                 <Tooltip />
-                                <Bar dataKey="value" fill="#f59e0b" name="Jumlah" radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="value" fill="#f59e0b" name="Jiwa" radius={[4, 4, 0, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
                     </CardContent>
                 </Card>
             </div>
 
-            {/* Last: Marital Status */}
-            <Card>
+            <Card className="shadow-sm border-slate-200">
                 <CardHeader>
-                    <CardTitle>Status Perkawinan</CardTitle>
+                    <CardTitle className="text-lg">Status Perkawinan</CardTitle>
                 </CardHeader>
                 <CardContent className="h-[250px]">
                     <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
                             <Pie
-                                data={MARITAL_DATA}
+                                data={maritalData}
                                 cx="50%"
                                 cy="50%"
                                 innerRadius={0}
                                 outerRadius={80}
                                 dataKey="value"
-                                label
+                                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                             >
-                                {MARITAL_DATA.map((entry, index) => (
+                                {maritalData.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={entry.color} />
                                 ))}
                             </Pie>

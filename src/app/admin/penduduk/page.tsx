@@ -3,6 +3,7 @@ import { getResidents } from "@/actions/admin-resident";
 import { DemographicManager } from "@/components/admin/demographic-manager";
 import { ResidentList } from "@/components/admin/resident-list";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PopulationCharts } from "@/components/data-penduduk/population-charts";
 
 export const dynamic = 'force-dynamic';
 
@@ -29,8 +30,16 @@ export default async function AdminPendudukPage() {
                     <ResidentList residents={residents} />
                 </TabsContent>
 
-                <TabsContent value="stats" className="space-y-4">
-                    <DemographicManager stats={stats} />
+                <TabsContent value="stats" className="space-y-12">
+                    <section>
+                        <h2 className="text-xl font-semibold mb-4">Grafik Real-time (Berdasarkan Daftar Penduduk)</h2>
+                        <PopulationCharts residents={residents} />
+                    </section>
+
+                    <section className="pt-8 border-t">
+                        <h2 className="text-xl font-semibold mb-4">Pengaturan Statistik Manual</h2>
+                        <DemographicManager stats={stats} />
+                    </section>
                 </TabsContent>
             </Tabs>
         </div>
