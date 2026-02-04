@@ -78,6 +78,24 @@ model DemographicStat {
   @@unique([category, label, year])
 }
 
+model Resident {
+  id            String   @id @default(cuid())
+  nik           String   @unique
+  name          String
+  gender        String   // LAKI-LAKI, PEREMPUAN
+  birthPlace    String?
+  birthDate     DateTime
+  religion      String
+  education     String
+  profession    String
+  maritalStatus String
+  address       String
+  rt            String
+  rw            String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
 model Budget {
   id          String   @id @default(cuid())
   year        Int

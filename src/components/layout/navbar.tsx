@@ -20,6 +20,12 @@ const navItems = [
 
 export function Navbar() {
   const pathname = usePathname()
+
+  // Don't show navbar on admin pages
+  if (pathname?.startsWith('/admin')) {
+    return null
+  }
+
   const [isScrolled, setIsScrolled] = React.useState(false)
   const [isHidden, setIsHidden] = React.useState(false)
   const { scrollY } = useScroll()

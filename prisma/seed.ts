@@ -279,6 +279,69 @@ Dalam sambutannya, Kepala Desa Karanglo menekankan pentingnya sinergi antara pem
     await prisma.banner.createMany({ data: banners });
     console.log("✅ Banners seeded");
 
+    // 10. Residents
+    await prisma.resident.deleteMany();
+    const residents = [
+        {
+            nik: "3310010101700001",
+            name: "Supardi",
+            gender: "LAKI-LAKI",
+            birthPlace: "Klaten",
+            birthDate: new Date("1970-05-12"),
+            religion: "Islam",
+            education: "SMA",
+            profession: "Petani",
+            maritalStatus: "Kawin",
+            address: "Dusun I",
+            rt: "01",
+            rw: "01"
+        },
+        {
+            nik: "3310014203850002",
+            name: "Siti Fatimah",
+            gender: "PEREMPUAN",
+            birthPlace: "Klaten",
+            birthDate: new Date("1985-03-22"),
+            religion: "Islam",
+            education: "S1",
+            profession: "Guru",
+            maritalStatus: "Kawin",
+            address: "Dusun II",
+            rt: "02",
+            rw: "01"
+        },
+        {
+            nik: "3310011508980003",
+            name: "Bambang Wijaya",
+            gender: "LAKI-LAKI",
+            birthPlace: "Boyolali",
+            birthDate: new Date("1998-08-15"),
+            religion: "Kristen",
+            education: "D3",
+            profession: "Wiraswasta",
+            maritalStatus: "Belum Kawin",
+            address: "Dusun III",
+            rt: "01",
+            rw: "02"
+        },
+        {
+            nik: "3310014512050004",
+            name: "Putri Lestari",
+            gender: "PEREMPUAN",
+            birthPlace: "Klaten",
+            birthDate: new Date("2005-12-05"),
+            religion: "Islam",
+            education: "SMA",
+            profession: "Pelajar/Mahasiswa",
+            maritalStatus: "Belum Kawin",
+            address: "Dusun I",
+            rt: "03",
+            rw: "01"
+        }
+    ];
+    await prisma.resident.createMany({ data: residents });
+    console.log("✅ Residents seeded");
+
     console.log("✅ All data seeded successfully!");
 }
 
