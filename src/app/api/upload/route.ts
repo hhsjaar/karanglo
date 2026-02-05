@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 
 export async function POST(req: NextRequest) {
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-        return NextResponse.json({ error: "Supabase environment variables are missing" }, { status: 500 });
-    }
-
     try {
         const formData = await req.formData();
         const file = formData.get("file") as File;
@@ -16,6 +12,8 @@ export async function POST(req: NextRequest) {
 
         const buffer = await file.arrayBuffer();
         const filename = Date.now() + "_" + file.name.replaceAll(" ", "_");
+
+        const supabase = getSupabase();
 
         // Upload to Supabase Storage
         const { data, error } = await supabase.storage
@@ -39,6 +37,6 @@ export async function POST(req: NextRequest) {
 
     } catch (error) {
         console.error("Upload failed:", error);
-        return NextResponse.json({ error: "Upload failed" }, { status: 500 });
+        return NextResponse.json({ error: "Upload failed: " + (error as Error).message }, { status: 500 });
     }
 }

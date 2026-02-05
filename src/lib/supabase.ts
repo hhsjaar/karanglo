@@ -1,9 +1,12 @@
-
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+export const getSupabase = () => {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-// We don't throw here to avoid failing the build on Vercel if vars are missing during build time.
-// Instead, we'll check it where it's used or handle the invalid client gracefully.
-export const supabase = createClient(supabaseUrl, supabaseKey)
+    if (!supabaseUrl || !supabaseKey) {
+        throw new Error('Supabase environment variables are missing')
+    }
+
+    return createClient(supabaseUrl, supabaseKey)
+}
