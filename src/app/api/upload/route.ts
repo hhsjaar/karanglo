@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
         }
 
         const buffer = await file.arrayBuffer();
-        const filename = Date.now() + "_" + file.name.replaceAll(" ", "_");
+        const filename = Date.now() + "_" + file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
 
         const supabase = getSupabase();
 

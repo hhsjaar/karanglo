@@ -39,13 +39,16 @@ export function ImageUpload({
                 body: formData,
             });
 
-            if (!res.ok) throw new Error("Upload failed");
+            if (!res.ok) {
+                const errorData = await res.json().catch(() => ({}));
+                throw new Error(errorData.error || "Upload failed");
+            }
 
             const data = await res.json();
             onChange(data.url);
         } catch (error) {
             console.error(error);
-            alert("Gagal mengupload gambar.");
+            alert(`Gagal mengupload gambar: ${(error as Error).message}`);
         } finally {
             setIsUploading(false);
         }
