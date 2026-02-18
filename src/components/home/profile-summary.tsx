@@ -6,7 +6,11 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, CheckCircle2 } from "lucide-react"
 import { motion } from "framer-motion"
 
-export function ProfileSummary() {
+interface ProfileSummaryProps {
+    profile: any;
+}
+
+export function ProfileSummary({ profile }: ProfileSummaryProps) {
     return (
         <section className="py-20 bg-background overflow-hidden">
             <div className="container mx-auto px-4 md:px-6">
@@ -21,27 +25,47 @@ export function ProfileSummary() {
                     >
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-4 mt-12">
-                                <div className="h-48 md:h-64 rounded-2xl bg-muted overflow-hidden relative shadow-lg">
-                                    {/* Placeholder */}
-                                    <div className="absolute inset-0 bg-slate-200 animate-pulse" />
-                                    <div className="absolute inset-0 flex items-center justify-center text-slate-400 font-medium">Foto Balai Desa</div>
+                                <div className="h-48 md:h-64 rounded-2xl bg-muted overflow-hidden relative shadow-lg group">
+                                    <Image
+                                        src={profile?.imgBalaiDesa || "/placeholder.svg"}
+                                        alt="Balai Desa"
+                                        fill
+                                        className="object-cover transition-transform group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-black/20" />
+                                    <div className="absolute bottom-4 left-4 text-white font-medium text-sm md:text-base">Balai Desa</div>
                                 </div>
-                                <div className="h-40 md:h-56 rounded-2xl bg-muted overflow-hidden relative shadow-lg">
-                                    {/* Placeholder */}
-                                    <div className="absolute inset-0 bg-slate-200 animate-pulse" />
-                                    <div className="absolute inset-0 flex items-center justify-center text-slate-400 font-medium">Kegiatan Warga</div>
+                                <div className="h-40 md:h-56 rounded-2xl bg-muted overflow-hidden relative shadow-lg group">
+                                    <Image
+                                        src={profile?.imgKegiatan || "/placeholder.svg"}
+                                        alt="Kegiatan Warga"
+                                        fill
+                                        className="object-cover transition-transform group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-black/20" />
+                                    <div className="absolute bottom-4 left-4 text-white font-medium text-sm md:text-base">Kegiatan Warga</div>
                                 </div>
                             </div>
                             <div className="space-y-4">
-                                <div className="h-40 md:h-56 rounded-2xl bg-muted overflow-hidden relative shadow-lg">
-                                    {/* Placeholder */}
-                                    <div className="absolute inset-0 bg-emerald-100 animate-pulse" />
-                                    <div className="absolute inset-0 flex items-center justify-center text-emerald-600 font-medium px-4 text-center">Wisata Air</div>
+                                <div className="h-40 md:h-56 rounded-2xl bg-muted overflow-hidden relative shadow-lg group">
+                                    <Image
+                                        src={profile?.imgWisata || "/placeholder.svg"}
+                                        alt="Wisata Air"
+                                        fill
+                                        className="object-cover transition-transform group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-black/20" />
+                                    <div className="absolute bottom-4 left-4 text-white font-medium text-sm md:text-base">Wisata Air</div>
                                 </div>
-                                <div className="h-48 md:h-64 rounded-2xl bg-muted overflow-hidden relative shadow-lg">
-                                    {/* Placeholder */}
-                                    <div className="absolute inset-0 bg-slate-200 animate-pulse" />
-                                    <div className="absolute inset-0 flex items-center justify-center text-slate-400 font-medium">Panen Raya</div>
+                                <div className="h-48 md:h-64 rounded-2xl bg-muted overflow-hidden relative shadow-lg group">
+                                    <Image
+                                        src={profile?.imgPanen || "/placeholder.svg"}
+                                        alt="Panen Raya"
+                                        fill
+                                        className="object-cover transition-transform group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-black/20" />
+                                    <div className="absolute bottom-4 left-4 text-white font-medium text-sm md:text-base">Panen Raya</div>
                                 </div>
                             </div>
                         </div>
@@ -66,14 +90,12 @@ export function ProfileSummary() {
                                 </span>
                                 Tentang Desa Kami
                             </div>
-                            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+                            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
                                 Membangun Desa, <br />
-                                <span className="text-primary">Mensejahterakan Masyarakat</span>
+                                <span className="text-emerald-600 dark:text-emerald-400 font-extrabold">{profile?.name || "Desa Karanglo"}</span>
                             </h2>
                             <p className="text-muted-foreground text-lg leading-relaxed">
-                                Desa Karanglo bertekad menjadi desa mandiri yang menjunjung tinggi kearifan lokal.
-                                Dengan dukungan teknologi dan transparansi, kami menghadirkan pelayanan publik terbaik
-                                serta mengembangkan potensi ekonomi berbasis masyarakat.
+                                {profile?.description || "Desa Karanglo bertekad menjadi desa mandiri yang menjunjung tinggi kearifan lokal."}
                             </p>
                         </div>
 
@@ -107,7 +129,7 @@ export function ProfileSummary() {
                             </div>
                         </div>
 
-                        <Button size="lg" className="rounded-full px-8" asChild>
+                        <Button size="lg" className="rounded-full px-8 bg-emerald-600 hover:bg-emerald-700 shadow-lg shadow-emerald-500/20" asChild>
                             <Link href="/profil">
                                 Kenali Lebih Dekat <ArrowRight className="ml-2 h-4 w-4" />
                             </Link>

@@ -11,12 +11,14 @@ import Image from "next/image"
 
 import { getBanners } from "@/actions/admin-banner";
 import { getPotencies } from "@/actions/admin-potency";
+import { getVillageProfile } from "@/actions/admin-profile";
 
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const banners = await getBanners();
   const potencies = await getPotencies();
+  const profile = await getVillageProfile();
 
   return (
     <div className="min-h-screen font-[family-name:var(--font-geist-sans)]">
@@ -56,7 +58,7 @@ export default async function Home() {
 
       <main className="space-y-20 py-20">
         {/* Profile Summary */}
-        <ProfileSummary />
+        <ProfileSummary profile={profile} />
 
         {/* Feature Highlights: PPDID */}
         <section className="container mx-auto px-4 md:px-6">

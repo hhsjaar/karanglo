@@ -24,6 +24,10 @@ const initialState = {
 export function ProfileGeneralForm({ profile }: ProfileGeneralFormProps) {
     const [state, formAction, isPending] = useActionState(updateProfile, initialState);
     const [headerBgProfil, setHeaderBgProfil] = useState(profile.headerBgProfil || "");
+    const [imgBalaiDesa, setImgBalaiDesa] = useState(profile.imgBalaiDesa || "");
+    const [imgKegiatan, setImgKegiatan] = useState(profile.imgKegiatan || "");
+    const [imgWisata, setImgWisata] = useState(profile.imgWisata || "");
+    const [imgPanen, setImgPanen] = useState(profile.imgPanen || "");
 
     return (
         <form action={formAction}>
@@ -87,17 +91,71 @@ export function ProfileGeneralForm({ profile }: ProfileGeneralFormProps) {
                         <p className="text-xs text-muted-foreground">Paste link dari fitur 'Embed a map' Google Maps disini.</p>
                     </div>
 
-                    <div className="space-y-4 pt-4 border-t">
-                        <Label>Background Halaman Profil</Label>
-                        <ImageUpload
-                            value={headerBgProfil}
-                            onChange={setHeaderBgProfil}
-                            onRemove={() => setHeaderBgProfil("")}
-                            name="headerBgProfil"
-                            label="Pilih Gambar Background Profil"
-                            disabled={isPending}
-                        />
-                        <p className="text-xs text-muted-foreground italic">Muncul di bagian atas halaman Profil Desa.</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t">
+                        <div className="space-y-4">
+                            <Label>Background Halaman Profil</Label>
+                            <ImageUpload
+                                value={headerBgProfil}
+                                onChange={setHeaderBgProfil}
+                                onRemove={() => setHeaderBgProfil("")}
+                                name="headerBgProfil"
+                                label="Pilih Gambar Background Profil"
+                                disabled={isPending}
+                            />
+                            <p className="text-xs text-muted-foreground italic">Muncul di bagian atas halaman Profil Desa.</p>
+                        </div>
+
+                        <div className="space-y-4">
+                            <Label>Foto Balai Desa (Home)</Label>
+                            <ImageUpload
+                                value={imgBalaiDesa}
+                                onChange={setImgBalaiDesa}
+                                onRemove={() => setImgBalaiDesa("")}
+                                name="imgBalaiDesa"
+                                label="Pilih Foto Balai Desa"
+                                disabled={isPending}
+                            />
+                            <p className="text-xs text-muted-foreground italic">Muncul di bagian rangkuman profil beranda.</p>
+                        </div>
+
+                        <div className="space-y-4">
+                            <Label>Foto Kegiatan (Home)</Label>
+                            <ImageUpload
+                                value={imgKegiatan}
+                                onChange={setImgKegiatan}
+                                onRemove={() => setImgKegiatan("")}
+                                name="imgKegiatan"
+                                label="Pilih Foto Kegiatan"
+                                disabled={isPending}
+                            />
+                            <p className="text-xs text-muted-foreground italic">Muncul di bagian rangkuman profil beranda.</p>
+                        </div>
+
+                        <div className="space-y-4">
+                            <Label>Foto Wisata (Home)</Label>
+                            <ImageUpload
+                                value={imgWisata}
+                                onChange={setImgWisata}
+                                onRemove={() => setImgWisata("")}
+                                name="imgWisata"
+                                label="Pilih Foto Wisata"
+                                disabled={isPending}
+                            />
+                            <p className="text-xs text-muted-foreground italic">Muncul di bagian rangkuman profil beranda.</p>
+                        </div>
+
+                        <div className="space-y-4">
+                            <Label>Foto Panen (Home)</Label>
+                            <ImageUpload
+                                value={imgPanen}
+                                onChange={setImgPanen}
+                                onRemove={() => setImgPanen("")}
+                                name="imgPanen"
+                                label="Pilih Foto Panen"
+                                disabled={isPending}
+                            />
+                            <p className="text-xs text-muted-foreground italic">Muncul di bagian rangkuman profil beranda.</p>
+                        </div>
                     </div>
 
                     <div className="flex justify-end">

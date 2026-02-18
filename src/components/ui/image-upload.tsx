@@ -91,7 +91,7 @@ export function ImageUpload({
                         type="button"
                         variant="secondary"
                         disabled={disabled || isUploading}
-                        onClick={() => document.getElementById("file-upload")?.click()}
+                        onClick={() => document.getElementById(`file-upload-${name}`)?.click()}
                     >
                         {isUploading ? (
                             <>
@@ -106,7 +106,7 @@ export function ImageUpload({
                         )}
                     </Button>
                     <Input
-                        id="file-upload"
+                        id={`file-upload-${name}`}
                         type="file"
                         accept="image/*"
                         className="hidden"

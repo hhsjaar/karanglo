@@ -25,6 +25,10 @@ model VillageProfile {
   history         String
   headerBgProfil  String?  @default("/placeholder.svg")
   headerBgPotensi String?  @default("/placeholder.svg")
+  imgBalaiDesa    String?  @default("/placeholder.svg")
+  imgKegiatan     String?  @default("/placeholder.svg")
+  imgWisata       String?  @default("/placeholder.svg")
+  imgPanen        String?  @default("/placeholder.svg")
   areaSize        Float
   populationCount Int
   idmStatus       IdmStatus @default(MAJU)

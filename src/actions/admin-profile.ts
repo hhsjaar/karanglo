@@ -26,7 +26,7 @@ export async function getVillageProfile() {
 
 export async function updateProfile(prevState: any, formData: FormData) {
     const data: any = {};
-    const fields = ["name", "description", "vision", "mission", "history", "address", "phone", "email", "mapEmbedUrl", "headerBgProfil", "headerBgPotensi"];
+    const fields = ["name", "description", "vision", "mission", "history", "address", "phone", "email", "mapEmbedUrl", "headerBgProfil", "headerBgPotensi", "imgBalaiDesa", "imgKegiatan", "imgWisata", "imgPanen"];
 
     fields.forEach(field => {
         const value = formData.get(field);
