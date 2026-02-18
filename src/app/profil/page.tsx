@@ -13,6 +13,19 @@ export const metadata = {
     description: "Sejarah, Visi Misi, dan Struktur Organisasi Pemerintah Desa Karanglo.",
 }
 
+const FormattedText = ({ text, className }: { text: string | null | undefined; className?: string }) => {
+    if (!text) return null;
+    return (
+        <div className={className}>
+            {text.split("\n").filter(p => p.trim() !== "").map((para, index) => (
+                <p key={index} className="mb-4 last:mb-0">
+                    {para}
+                </p>
+            ))}
+        </div>
+    );
+};
+
 export default async function ProfilPage() {
     const profile = await getVillageProfile();
 
@@ -23,15 +36,22 @@ export default async function ProfilPage() {
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pt-20 pb-12">
             {/* Header Hero */}
-            <div className="relative bg-primary/90 py-20 mb-12 overflow-hidden text-primary-foreground">
-                <div className="absolute inset-0 opacity-10">
-                    <Image src="/pattern.svg" alt="Pattern" fill className="object-cover" />
+            <div className="relative py-24 mb-12 overflow-hidden text-white">
+                <div className="absolute inset-0 z-0">
+                    <Image
+                        src={profile.headerBgProfil || "/placeholder.svg"}
+                        alt="Background"
+                        fill
+                        className="object-cover"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-black/60" />
                 </div>
                 <div className="container mx-auto px-4 text-center relative z-10">
-                    <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">Profil {profile.name}</h1>
-                    <p className="text-primary-foreground/80 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-                        Mengenal lebih dekat identitas, sejarah, budaya, dan visi pembangunan {profile.name}.
-                    </p>
+                    <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 drop-shadow-md">Profil {profile.name}</h1>
+                    <div className="text-white/90 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-medium drop-shadow-sm">
+                        <FormattedText text={profile.description || `Mengenal lebih dekat identitas, sejarah, budaya, dan visi pembangunan ${profile.name}.`} />
+                    </div>
                 </div>
             </div>
 
@@ -54,7 +74,7 @@ export default async function ProfilPage() {
                                 <Card className="overflow-hidden border-none shadow-lg">
                                     <div className="relative h-[300px] w-full">
                                         <Image
-                                            src="/placeholder.svg"
+                                            src="/desakaranglo.webp"
                                             alt="Desa Karanglo Landscape"
                                             fill
                                             className="object-cover"
@@ -64,7 +84,7 @@ export default async function ProfilPage() {
                                         </div>
                                     </div>
                                     <CardContent className="p-8 md:p-12 prose prose-lg dark:prose-invert max-w-none">
-                                        <div dangerouslySetInnerHTML={{ __html: profile.history || "Belum ada data sejarah." }} />
+                                        <FormattedText text={profile.history || "Belum ada data sejarah."} />
                                     </CardContent>
                                 </Card>
 
@@ -151,7 +171,7 @@ export default async function ProfilPage() {
                                     <CardTitle className="text-3xl font-bold">Misi Pembangunan</CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-6 pt-6">
-                                    <div dangerouslySetInnerHTML={{ __html: profile.mission || "Belum ada data." }} className="prose dark:prose-invert" />
+                                    <FormattedText text={profile.mission || "Belum ada data."} className="prose dark:prose-invert" />
                                 </CardContent>
                             </Card>
                         </div>

@@ -14,6 +14,7 @@ interface ImageUploadProps {
     onRemove: () => void;
     disabled?: boolean;
     label?: string;
+    name?: string;
 }
 
 export function ImageUpload({
@@ -21,7 +22,8 @@ export function ImageUpload({
     onChange,
     onRemove,
     disabled,
-    label = "Upload Image"
+    label = "Upload Image",
+    name = "image"
 }: ImageUploadProps) {
     const [isUploading, setIsUploading] = useState(false);
 
@@ -118,7 +120,7 @@ export function ImageUpload({
             </div>
             {/* Hidden Input for Form Submission binding if needed inside a form, 
                 but usually we handle state in parent or use specific hidden field */}
-            <input type="hidden" name="image" value={value || ""} />
+            <input type="hidden" name={name} value={value || ""} />
         </div>
     );
 }

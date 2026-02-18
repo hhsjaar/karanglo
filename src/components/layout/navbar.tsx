@@ -3,6 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
@@ -72,8 +73,8 @@ export function Navbar() {
           <Link href="/" className="flex items-center gap-2 md:gap-3 group">
             <div className="relative flex h-10 w-10 md:h-12 md:w-12 shrink-0 overflow-hidden rounded-full border-2 border-white/20 bg-white shadow-sm group-hover:border-primary transition-colors">
               {/* Custom Logo / Initials */}
-              <div className="h-full w-full bg-emerald-600 flex items-center justify-center text-white font-bold text-xs md:text-sm">
-                DK
+              <div className="h-full w-full bg-white flex items-center justify-center">
+                <Image src="/favicon.png" alt="Logo" width={40} height={40} className="w-full h-full object-contain p-1" />
               </div>
             </div>
             <div className="flex flex-col">
@@ -127,7 +128,9 @@ export function Navbar() {
             <SheetContent side="right" className="w-[300px] sm:w-[350px]">
               <div className="flex flex-col gap-6 mt-6">
                 <Link href="/" className="flex items-center gap-2">
-                  <div className="h-10 w-10 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold">DK</div>
+                  <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center overflow-hidden border">
+                    <Image src="/favicon.png" alt="Logo" width={32} height={32} className="w-full h-full object-contain p-1" />
+                  </div>
                   <span className="text-xl font-bold">Desa Karanglo</span>
                 </Link>
                 <nav className="flex flex-col gap-4">

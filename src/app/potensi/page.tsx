@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge"
 import { Fish, Store, Sprout, ArrowRight, GraduationCap, TrendingUp } from "lucide-react"
 import { getPotencies } from "@/actions/admin-potency"
+import { getVillageProfile } from "@/actions/admin-profile"
 import Image from "next/image"
 
 export const dynamic = 'force-dynamic';
@@ -15,6 +16,7 @@ export const metadata = {
 
 export default async function PotensiPage() {
     const potencies = await getPotencies();
+    const profile = await getVillageProfile();
 
     // Separate main highlight (Wisata Air / priority) if any, or just pick first
     // ideally we would have a 'isFeatured' flag but for now we pick key 'Wisata'
@@ -23,12 +25,21 @@ export default async function PotensiPage() {
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pt-20 pb-12">
-            <div className="bg-emerald-900 py-20 mb-12 relative overflow-hidden">
-                <div className="absolute inset-0 bg-[url('/placeholder.svg')] bg-cover bg-center opacity-20 mix-blend-overlay" />
+            <div className="relative py-24 mb-12 overflow-hidden text-white">
+                <div className="absolute inset-0 z-0">
+                    <Image
+                        src={profile?.headerBgPotensi || "/placeholder.svg"}
+                        alt="Background"
+                        fill
+                        className="object-cover"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-black/60" />
+                </div>
                 <div className="container mx-auto px-4 text-center relative z-10 text-white">
                     <Badge className="mb-4 bg-emerald-500 hover:bg-emerald-600 border-none text-white text-md px-4 py-1">Kekayaan Desa</Badge>
-                    <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">Potensi Desa Karanglo</h1>
-                    <p className="text-emerald-100 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                    <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 drop-shadow-md">Potensi Desa Karanglo</h1>
+                    <p className="text-white/90 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-medium drop-shadow-sm">
                         Dari wisata air yang menyegarkan hingga produk kreatif UMKM warga.
                         Temukan peluang dan keunikan yang membangun ekonomi desa kami.
                     </p>

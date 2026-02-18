@@ -23,6 +23,8 @@ model VillageProfile {
   vision          String
   mission         String
   history         String
+  headerBgProfil  String?  @default("/placeholder.svg")
+  headerBgPotensi String?  @default("/placeholder.svg")
   areaSize        Float
   populationCount Int
   idmStatus       IdmStatus @default(MAJU)

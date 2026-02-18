@@ -15,6 +15,9 @@ export async function getPotencies() {
 export async function getPotency(id: string) {
     return await prisma.potency.findUnique({ where: { id } });
 }
+export async function getPotencyBySlug(slug: string) {
+    return await prisma.potency.findUnique({ where: { slug } });
+}
 
 export async function createPotency(prevState: any, formData: FormData) {
     const title = formData.get("title") as string;

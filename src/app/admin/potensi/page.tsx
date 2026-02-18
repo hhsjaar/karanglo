@@ -5,11 +5,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { getVillageProfile } from "@/actions/admin-profile";
+import { PotencyHeaderSettings } from "@/components/admin/potency-header-settings";
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminPotencyPage() {
     const potencies = await getPotencies();
+    const profile = await getVillageProfile();
 
     return (
         <div className="space-y-6">
@@ -24,6 +27,8 @@ export default async function AdminPotencyPage() {
                     </Link>
                 </Button>
             </div>
+
+            <PotencyHeaderSettings profile={profile} />
 
             <div className="border rounded-lg bg-white dark:bg-card">
                 <Table>

@@ -148,7 +148,7 @@ Seiring berjalannya waktu, Desa Karanglo berkembang menjadi pemukiman yang subur
                 category: "POTENCY",
                 description: "Pemandian alam dengan air yang sejuk dan asri, cocok untuk terapi kesehatan.",
                 content: "Umbul Besuki merupakan sumber mata air alami yang telah ditata menjadi kolam renang yang asri. Airnya sangat jernih dan segar, tanpa kaporit. Dipercaya memiliki khasiat untuk terapi kesehatan, khususnya relaksasi otot dan peredaran darah.",
-                thumbnail: "https://images.unsplash.com/photo-1519810755548-397586617fb0?w=800&q=80",
+                thumbnail: "https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800&q=80",
                 images: [],
                 economicVal: "Omset Rp 300jt/tahun",
                 location: "Dusun III"
@@ -158,8 +158,8 @@ Seiring berjalannya waktu, Desa Karanglo berkembang menjadi pemukiman yang subur
                 slug: "keripik-belut-ibu-ani",
                 category: "UMKM",
                 description: "Oleh-oleh khas Karanglo yang renyah, gurih, dan bergizi tinggi.",
-                content: "Keripik Belut Ibu Ani diproduksi menggunakan belut sawah segar pilihan dan bumbu rempah warisan leluhur. Digoreng garing sehingga renyah dan tidak berminyak. Tersedia dalam berbagai kemasan dan rasa (Original, Pedas, Balado).",
-                thumbnail: "https://images.unsplash.com/photo-1621251390310-4c330df32e8f?w=800&q=80",
+                content: "Keripik Belut Ibu Ani diproduksi menggunakan belut sawah segar pilihan dan bumbu rempah warisan leluhur. Digoreng garing sehingga renyah and tidak berminyak. Tersedia dalam berbagai kemasan dan rasa (Original, Pedas, Balado).",
+                thumbnail: "https://images.unsplash.com/photo-1613918108466-292b78a8ef95?w=800&q=80",
                 images: [],
                 economicVal: "Laku 1000 pcs/bulan",
                 location: "Dusun I"
@@ -170,7 +170,7 @@ Seiring berjalannya waktu, Desa Karanglo berkembang menjadi pemukiman yang subur
                 category: "UMKM",
                 description: "Kain batik tulis dengan motif khas 'Bunga Karang' yang elegan.",
                 content: "Batik Tulis Karanglo dikerjakan oleh ibu-ibu PKK desa sebagai upaya pelestarian budaya. Motif 'Bunga Karang' terinspirasi dari keindahan alam desa. Pewarnaan menggunakan bahan alami sehingga ramah lingkungan dan warna lebih natural.",
-                thumbnail: "https://images.unsplash.com/photo-1596263576924-4af8a2d3ad7a?w=800&q=80",
+                thumbnail: "https://images.unsplash.com/photo-1584184924103-e310d9dc82fc?w=800&q=80",
                 images: [],
                 economicVal: "Harga mulai Rp 250rb",
                 location: "Dusun IV"

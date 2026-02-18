@@ -10,6 +10,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Loader2 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
+import { ImageUpload } from "@/components/ui/image-upload";
+import { useState } from "react";
+
 interface ProfileGeneralFormProps {
     profile: any;
 }
@@ -20,6 +23,7 @@ const initialState = {
 
 export function ProfileGeneralForm({ profile }: ProfileGeneralFormProps) {
     const [state, formAction, isPending] = useActionState(updateProfile, initialState);
+    const [headerBgProfil, setHeaderBgProfil] = useState(profile.headerBgProfil || "");
 
     return (
         <form action={formAction}>
@@ -81,6 +85,19 @@ export function ProfileGeneralForm({ profile }: ProfileGeneralFormProps) {
                         <Label htmlFor="mapEmbedUrl">URL Embed Google Maps</Label>
                         <Input id="mapEmbedUrl" name="mapEmbedUrl" defaultValue={profile.mapEmbedUrl || ""} placeholder="https://www.google.com/maps/embed?..." />
                         <p className="text-xs text-muted-foreground">Paste link dari fitur 'Embed a map' Google Maps disini.</p>
+                    </div>
+
+                    <div className="space-y-4 pt-4 border-t">
+                        <Label>Background Halaman Profil</Label>
+                        <ImageUpload
+                            value={headerBgProfil}
+                            onChange={setHeaderBgProfil}
+                            onRemove={() => setHeaderBgProfil("")}
+                            name="headerBgProfil"
+                            label="Pilih Gambar Background Profil"
+                            disabled={isPending}
+                        />
+                        <p className="text-xs text-muted-foreground italic">Muncul di bagian atas halaman Profil Desa.</p>
                     </div>
 
                     <div className="flex justify-end">

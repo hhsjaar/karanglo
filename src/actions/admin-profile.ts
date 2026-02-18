@@ -25,30 +25,20 @@ export async function getVillageProfile() {
 }
 
 export async function updateProfile(prevState: any, formData: FormData) {
-    const name = formData.get("name") as string;
-    const description = formData.get("description") as string;
-    const vision = formData.get("vision") as string;
-    const mission = formData.get("mission") as string;
-    const history = formData.get("history") as string;
-    const address = formData.get("address") as string;
-    const phone = formData.get("phone") as string;
-    const email = formData.get("email") as string;
-    const mapEmbedUrl = formData.get("mapEmbedUrl") as string;
+    const data: any = {};
+    const fields = ["name", "description", "vision", "mission", "history", "address", "phone", "email", "mapEmbedUrl", "headerBgProfil", "headerBgPotensi"];
+
+    fields.forEach(field => {
+        const value = formData.get(field);
+        if (value !== null) {
+            data[field] = value as string;
+        }
+    });
 
     try {
         await prisma.villageProfile.update({
             where: { id: "default" },
-            data: {
-                name,
-                description,
-                vision,
-                mission,
-                history,
-                address,
-                phone,
-                email,
-                mapEmbedUrl,
-            },
+            data,
         });
     } catch (error) {
         console.error("Update Profile Error:", error);
