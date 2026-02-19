@@ -13,10 +13,12 @@ async function main() {
     console.log("🌱 Starting Seeding Process...");
 
     // 1. Admin
-    const password = await bcrypt.hash("Temonanjing123", 10);
+    const password = await bcrypt.hash("karanglo", 10);
     await prisma.admin.upsert({
         where: { username: "karanglo" },
-        update: {},
+        update: {
+            password: password,
+        },
         create: {
             username: "karanglo",
             password: password,
