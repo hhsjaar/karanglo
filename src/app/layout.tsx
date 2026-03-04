@@ -75,6 +75,9 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  verification: {
+    google: "sEufZlx24GkMC1q2Xc98wenMpekcLpvxU-EvKBG91xs",
+  },
   category: 'government',
 };
 
