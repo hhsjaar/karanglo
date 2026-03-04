@@ -22,6 +22,9 @@ const baseUrl = new URL(baseUrlStr);
 
 export const metadata: Metadata = {
   metadataBase: baseUrl,
+  icons: {
+    icon: '/favicon.png',
+  },
   title: {
     default: "Desa Karanglo | Website Resmi Pemerintah Desa",
     template: "%s | Desa Karanglo"
