@@ -2,7 +2,10 @@ import { MetadataRoute } from 'next';
 import prisma from '@/lib/prisma';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://desa-karanglo.vercel.app';
+    let baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_URL || 'https://desa-karanglo.vercel.app';
+    if (!baseUrl.startsWith('http')) {
+        baseUrl = `https://${baseUrl}`;
+    }
 
     // Fetch dynamic slugs
     const potencies = await prisma.potency.findMany({ select: { slug: true, updatedAt: true } });

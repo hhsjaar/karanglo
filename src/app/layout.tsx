@@ -14,10 +14,14 @@ const geistMono = Roboto_Mono({
   subsets: ["latin"],
 });
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://desa-karanglo.vercel.app';
+let baseUrlStr = process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_URL || 'http://localhost:3000';
+if (!baseUrlStr.startsWith('http')) {
+  baseUrlStr = `https://${baseUrlStr}`;
+}
+const baseUrl = new URL(baseUrlStr);
 
 export const metadata: Metadata = {
-  metadataBase: new URL(baseUrl),
+  metadataBase: baseUrl,
   title: {
     default: "Desa Karanglo | Website Resmi Pemerintah Desa",
     template: "%s | Desa Karanglo"
