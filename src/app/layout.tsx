@@ -14,9 +14,61 @@ const geistMono = Roboto_Mono({
   subsets: ["latin"],
 });
 
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://desa-karanglo.vercel.app';
+
 export const metadata: Metadata = {
-  title: "Desa Karanglo | Website Resmi Pemerintah Desa",
+  metadataBase: new URL(baseUrl),
+  title: {
+    default: "Desa Karanglo | Website Resmi Pemerintah Desa",
+    template: "%s | Desa Karanglo"
+  },
   description: "Website Resmi Pemerintah Desa Karanglo, Kecamatan Polanharjo, Kabupaten Klaten. Informasi terkini, layanan publik, dan potensi desa wisata.",
+  keywords: ["Desa Karanglo", "Karanglo Polanharjo", "Klaten", "Desa Wisata Klaten", "Pemerintah Desa Karanglo", "Klaten Tengah", "Wisata Karanglo"],
+  authors: [{ name: "Pemerintah Desa Karanglo" }],
+  creator: "Pemerintah Desa Karanglo",
+  publisher: "Pemerintah Desa Karanglo",
+  formatDetection: {
+    email: false,
+    address: true,
+    telephone: true,
+  },
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: "Desa Karanglo | Website Resmi Pemerintah Desa",
+    description: "Website Resmi Pemerintah Desa Karanglo, Kecamatan Polanharjo, Kabupaten Klaten. Informasi terkini, layanan publik, dan potensi desa wisata.",
+    url: baseUrl,
+    siteName: "Desa Karanglo",
+    locale: "id_ID",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Desa Karanglo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Desa Karanglo | Website Resmi Pemerintah Desa",
+    description: "Website Resmi Pemerintah Desa Karanglo, Kecamatan Polanharjo, Kabupaten Klaten. Informasi terkini, layanan publik, dan potensi desa wisata.",
+    images: ["/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  category: 'government',
 };
 
 export default function RootLayout({

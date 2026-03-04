@@ -2,9 +2,16 @@ import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
 
-const connectionString = process.env.DATABASE_URL;
+const connectionString = process.env.DIRECT_URL || process.env.DATABASE_URL?.replace(/\?pgbouncer=true(&connection_limit=\d+)?/, "");
 
-const pool = new Pool({ connectionString });
+if (!connectionString) {
+    console.warn("DATABASE_URL/DIRECT_URL is not defined in environment variables!");
+}
+
+const pool = new Pool({
+    connectionString,
+    ssl: connectionString?.includes("supabase.com") ? { rejectUnauthorized: false } : false
+});
 const adapter = new PrismaPg(pool);
 
 declare global {

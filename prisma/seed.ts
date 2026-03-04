@@ -4,8 +4,11 @@ import { Pool } from "pg";
 import bcrypt from "bcryptjs";
 import "dotenv/config";
 
-const connectionString = process.env.DATABASE_URL;
-const pool = new Pool({ connectionString });
+const connectionString = process.env.DIRECT_URL || process.env.DATABASE_URL?.replace(/\?pgbouncer=true(&connection_limit=\d+)?/, "");
+const pool = new Pool({
+    connectionString,
+    ssl: connectionString?.includes("supabase.com") ? { rejectUnauthorized: false } : false
+});
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
@@ -13,17 +16,19 @@ async function main() {
     console.log("🌱 Starting Seeding Process...");
 
     // 1. Admin
-    const password = await bcrypt.hash("Temonanjing123", 10);
+    const password = await bcrypt.hash("karanglo", 10);
     await prisma.admin.upsert({
         where: { username: "karanglo" },
-        update: {},
+        update: {
+            password: password,
+        },
         create: {
             username: "karanglo",
             password: password,
             role: "admin",
         },
     });
-    console.log("✅ Admin seeded");
+    console.log("✅ Admin seeded with username 'karanglo' and password 'karanglo'");
 
     // 2. Village Profile
     await prisma.villageProfile.upsert({
@@ -257,14 +262,14 @@ Dalam sambutannya, Kepala Desa Karanglo menekankan pentingnya sinergi antara pem
         {
             title: "Selamat Datang di Desa Karanglo",
             description: "Desa Wisata yang Asri, Sejuk, dan Menyenangkan.",
-            image: "https://images.unsplash.com/photo-1588668214407-6ea9e6d8c278?q=80&w=2574&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=2670&auto=format&fit=crop",
             order: 1,
             link: "/profil",
         },
         {
             title: "Nikmati Kesegaran Wisata Air",
             description: "River Tubing & Umbul Alami yang Menyegarkan Pikiran.",
-            image: "https://images.unsplash.com/photo-1473183577329-87c2db1b7c25?q=80&w=3540&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=2670&auto=format&fit=crop",
             order: 2,
             link: "/potensi",
         },
